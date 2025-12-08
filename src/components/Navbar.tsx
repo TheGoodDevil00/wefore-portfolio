@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
+import { useTheme } from "@/components/ThemeProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme } = useTheme();
 
   const navLinks = [
     { name: "Home", href: "#home" },
@@ -12,13 +16,15 @@ const Navbar = () => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const logoSrc = theme === 'light' ? "/images/logo-light.png" : "/images/logo.png";
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="WeFore Logo" className="h-14 w-auto" />
+            <img src={logoSrc} alt="WeFore Logo" className="h-14 w-auto" />
           </a>
 
           {/* Desktop Navigation */}
@@ -36,10 +42,10 @@ const Navbar = () => {
               variant="nav"
               size="sm"
               onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
-              className="snow-cap"
             >
               View Work
             </Button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}

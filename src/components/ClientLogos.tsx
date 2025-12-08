@@ -1,3 +1,5 @@
+import { ThemeToggle } from "./ThemeToggle";
+
 const clients = [
   { name: "Student Council", logo: "/images/clients/student-council.png" },
   { name: "Tumbledry", logo: "/images/clients/tumbledry-new.png" },
@@ -11,7 +13,10 @@ const clients = [
 
 const ClientLogos = () => {
   return (
-    <section id="about" className="py-16 border-y border-border bg-card/30">
+    <section id="about" className="py-16 border-y border-border bg-card/30 relative group">
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <ThemeToggle />
+      </div>
       <div className="container mx-auto px-4 mb-10 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-foreground">Our Clients</h2>
       </div>

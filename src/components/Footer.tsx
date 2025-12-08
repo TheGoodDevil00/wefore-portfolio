@@ -1,6 +1,10 @@
 import { Instagram, Linkedin } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Footer = () => {
+  const { theme } = useTheme();
+  const logoSrc = theme === 'light' ? "/images/logo-light.png" : "/images/logo.png";
+
   const socialLinks = [
     { icon: Instagram, href: "https://www.instagram.com/weforeofficial/", label: "Instagram" },
     { icon: Linkedin, href: "https://www.linkedin.com/company/wefore-media/?viewAsMember=true", label: "LinkedIn" },
@@ -12,7 +16,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="WeFore Logo" className="h-14 w-auto" />
+            <img src={logoSrc} alt="WeFore Logo" className="h-14 w-auto" />
           </div>
 
           <div className="flex items-center gap-4">

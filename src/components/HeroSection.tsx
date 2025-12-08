@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
 
 const HeroSection = () => {
+  const { theme } = useTheme();
+  const logoSrc = theme === 'light' ? "/images/logo-light.png" : "/images/logo.png";
+
   return (
     <section
       id="home"
@@ -18,7 +22,7 @@ const HeroSection = () => {
         <div className="text-center max-w-4xl mx-auto">
           {/* Main heading */}
           <div className="flex justify-center mb-6 animate-fade-in-up">
-            <img src="/images/logo.png" alt="WeFore Logo" className="h-24 md:h-32 lg:h-40 w-auto" />
+            <img src={logoSrc} alt="WeFore Logo" className="h-24 md:h-32 lg:h-40 w-auto" />
           </div>
 
           {/* Tagline */}

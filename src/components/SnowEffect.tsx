@@ -13,8 +13,18 @@ const SnowEffect: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const mouseRef = useRef({ x: -1000, y: -1000 });
     const lastMouseRef = useRef({ x: -1000, y: -1000 });
+    const colorRef = useRef("white");
 
     useEffect(() => {
+        const checkTheme = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            colorRef.current = isDark ? "white" : "black";
+        };
+
+        checkTheme();
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -44,7 +54,6 @@ const SnowEffect: React.FC = () => {
         };
 
         const createTrailParticle = (x: number, y: number, vx: number, vy: number) => {
-            // Create a larger burst of particles for the tail (Increased density)
             for (let i = 0; i < 8; i++) {
                 trailParticles.push({
                     x: x + (Math.random() - 0.5) * 15,
@@ -66,8 +75,10 @@ const SnowEffect: React.FC = () => {
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Falling Snow
-            ctx.fillStyle = "white";
+            const currentColor = colorRef.current;
+            const isDark = currentColor === "black";
+
+            ctx.fillStyle = currentColor;
             ctx.shadowBlur = 0;
             snowflakes.forEach((flake) => {
                 ctx.beginPath();
@@ -76,13 +87,13 @@ const SnowEffect: React.FC = () => {
                 ctx.fill();
             });
 
-            // Draw Trail with Glow
-            ctx.shadowColor = "white";
+            ctx.shadowColor = currentColor;
             ctx.shadowBlur = 8;
             trailParticles.forEach((p) => {
                 ctx.beginPath();
                 ctx.globalAlpha = p.opacity;
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                const rgb = isDark ? "0, 0, 0" : "255, 255, 255"; // if isDark(current color is black), use 0,0,0
+                ctx.fillStyle = `rgba(${rgb}, ${p.opacity})`;
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fill();
             });
@@ -92,16 +103,13 @@ const SnowEffect: React.FC = () => {
         };
 
         const update = () => {
-            // Update Mouse interaction
             const mx = mouseRef.current.x;
             const my = mouseRef.current.y;
 
-            // Falling Snow Physics
             snowflakes.forEach((flake) => {
                 flake.y += flake.speed;
                 flake.x += flake.drift;
 
-                // Repulsion from mouse
                 const dx = flake.x - mx;
                 const dy = flake.y - my;
                 const distance = Math.sqrt(dx * dx + dy * dy);
@@ -128,19 +136,17 @@ const SnowEffect: React.FC = () => {
                 }
             });
 
-            // Trail Physics
             for (let i = trailParticles.length - 1; i >= 0; i--) {
                 const p = trailParticles[i];
-                p.y += p.speed; // Gravity
-                p.x += p.drift; // Inertia
-                p.opacity -= 0.03; // Fade out faster
+                p.y += p.speed;
+                p.x += p.drift;
+                p.opacity -= 0.03;
 
                 if (p.opacity <= 0) {
                     trailParticles.splice(i, 1);
                 }
             }
 
-            // Emit trails if mouse Is moving
             const lmx = lastMouseRef.current.x;
             const lmy = lastMouseRef.current.y;
             if (mx !== -1000 && (Math.abs(mx - lmx) > 1 || Math.abs(my - lmy) > 1)) {
@@ -177,7 +183,6 @@ const SnowEffect: React.FC = () => {
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('mousemove', handleMouseMove);
 
-        // Touch events
         window.addEventListener('touchstart', handleTouchMove, { passive: true });
         window.addEventListener('touchmove', handleTouchMove, { passive: true });
         window.addEventListener('touchend', handleTouchEnd);
@@ -185,6 +190,7 @@ const SnowEffect: React.FC = () => {
         animate();
 
         return () => {
+            observer.disconnect();
             window.removeEventListener('resize', resizeCanvas);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('touchstart', handleTouchMove);

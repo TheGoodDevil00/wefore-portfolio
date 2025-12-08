@@ -6,6 +6,47 @@
 
 @layer base {
   :root {
+    /* Light Mode Tokens */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    /* Dark text for light mode */
+
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+
+    --primary: 263 70% 50%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 263 70% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 263 70% 50%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens - Light Mode Adjustments */
+    --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%) 0%, hsl(280 80% 60%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 96%) 0%, hsl(0 0% 90%) 100%);
+    --shadow-glow: 0 0 40px hsl(263 70% 50% / 0.2);
+    --shadow-card: 0 4px 24px hsl(240 5% 10% / 0.1);
+    /* Softer shadow for light mode */
+  }
+
+  .dark {
     --background: 0 0% 4%;
     --foreground: 0 0% 98%;
 
@@ -34,18 +75,11 @@
     --input: 0 0% 15%;
     --ring: 263 70% 50%;
 
-    --radius: 0.75rem;
-
-    /* Custom tokens */
+    /* Custom tokens - Dark Mode Defaults */
     --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%) 0%, hsl(280 80% 60%) 100%);
     --gradient-dark: linear-gradient(180deg, hsl(0 0% 4%) 0%, hsl(0 0% 8%) 100%);
     --shadow-glow: 0 0 40px hsl(263 70% 50% / 0.3);
     --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.4);
-  }
-
-  .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
   }
 }
 
