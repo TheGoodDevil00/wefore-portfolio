@@ -126,83 +126,85 @@ const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass =
             <div
               key={index}
               className={`shrink-0 ${isVertical ? "w-32 md:w-40 aspect-[9/16]" : "w-40 md:w-52 aspect-square"
-                } bg-secondary rounded-xl border border-border hover:border-primary/50 transition-all duration-300 flex items-center justify-center group cursor-pointer hover:scale-105 overflow-hidden relative`}
+                } relative group cursor-pointer hover:scale-105 transition-all duration-300 snow-cap`}
             >
-              {item && typeof item === 'string' ? (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <div className="w-full h-full relative">
-                      {isVideo ? (
-                        useCloudinary ? (
-                          // Cloudinary Video with optimization
-                          <CloudinaryVideo
-                            publicId={item}
-                            className="w-full h-full object-cover"
-                            playOnHover={true}
-                            showThumbnail={true}
-                            width={isVertical ? 400 : 600}
-                            height={isVertical ? 711 : 600}
-                          />
+              <div className="w-full h-full bg-secondary rounded-xl border border-border hover:border-primary/50 flex items-center justify-center overflow-hidden relative">
+                {item && typeof item === 'string' ? (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="w-full h-full relative">
+                        {isVideo ? (
+                          useCloudinary ? (
+                            // Cloudinary Video with optimization
+                            <CloudinaryVideo
+                              publicId={item}
+                              className="w-full h-full object-cover"
+                              playOnHover={true}
+                              showThumbnail={true}
+                              width={isVertical ? 400 : 600}
+                              height={isVertical ? 711 : 600}
+                            />
+                          ) : (
+                            // Local Video
+                            <video
+                              src={item}
+                              className="w-full h-full object-cover"
+                              muted
+                              loop
+                              onMouseEnter={(e) => e.currentTarget.play()}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.pause();
+                                e.currentTarget.currentTime = 0;
+                              }}
+                            />
+                          )
                         ) : (
-                          // Local Video
-                          <video
-                            src={item}
-                            className="w-full h-full object-cover"
-                            muted
-                            loop
-                            onMouseEnter={(e) => e.currentTarget.play()}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.pause();
-                              e.currentTarget.currentTime = 0;
-                            }}
-                          />
-                        )
-                      ) : (
-                        <img src={item} alt={`Portfolio item ${index}`} className="w-full h-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500" />
-                      )}
-                      {isVideo && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none">
-                          <Play className="text-white opacity-80 group-hover:opacity-0 transition-opacity" size={32} />
-                        </div>
-                      )}
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      {isVideo ? (
-                        useCloudinary ? (
-                          // Cloudinary Video in Dialog
-                          <CloudinaryVideo
-                            publicId={item}
-                            className="max-w-full max-h-[90vh] rounded-md"
-                            controls={true}
-                            autoPlay={true}
-                            playOnHover={false}
-                            showThumbnail={false}
-                          />
+                          <img src={item} alt={`Portfolio item ${index}`} className="w-full h-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500" />
+                        )}
+                        {isVideo && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none">
+                            <Play className="text-white opacity-80 group-hover:opacity-0 transition-opacity" size={32} />
+                          </div>
+                        )}
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        {isVideo ? (
+                          useCloudinary ? (
+                            // Cloudinary Video in Dialog
+                            <CloudinaryVideo
+                              publicId={item}
+                              className="max-w-full max-h-[90vh] rounded-md"
+                              controls={true}
+                              autoPlay={true}
+                              playOnHover={false}
+                              showThumbnail={false}
+                            />
+                          ) : (
+                            // Local Video in Dialog
+                            <video
+                              src={item}
+                              className="max-w-full max-h-[90vh] rounded-md"
+                              controls
+                              autoPlay
+                            />
+                          )
                         ) : (
-                          // Local Video in Dialog
-                          <video
-                            src={item}
-                            className="max-w-full max-h-[90vh] rounded-md"
-                            controls
-                            autoPlay
-                          />
-                        )
-                      ) : (
-                        <img src={item} alt={`Portfolio item ${index}`} className="max-w-full max-h-[90vh] object-contain rounded-md" />
-                      )}
-                      <DialogClose className="absolute top-4 right-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors z-50">
-                        <X size={24} />
-                      </DialogClose>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              ) : (
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <Play className="text-muted-foreground group-hover:text-primary transition-colors" size={20} />
-                </div>
-              )}
+                          <img src={item} alt={`Portfolio item ${index}`} className="max-w-full max-h-[90vh] object-contain rounded-md" />
+                        )}
+                        <DialogClose className="absolute top-4 right-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors z-50">
+                          <X size={24} />
+                        </DialogClose>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Play className="text-muted-foreground group-hover:text-primary transition-colors" size={20} />
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

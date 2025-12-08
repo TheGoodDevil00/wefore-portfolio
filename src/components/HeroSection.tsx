@@ -38,7 +38,7 @@ const HeroSection = () => {
               variant="hero"
               size="xl"
               onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
-              className="group"
+              className="group snow-cap"
             >
               View Work
               <ArrowDown className="ml-2 group-hover:translate-y-1 transition-transform" />

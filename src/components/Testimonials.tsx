@@ -30,7 +30,7 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group"
+              className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group snow-cap"
             >
               <Quote className="text-primary/40 mb-4 group-hover:text-primary/60 transition-colors" size={32} />
               <p className="text-muted-foreground mb-6 leading-relaxed">

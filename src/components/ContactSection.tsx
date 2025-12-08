@@ -185,7 +185,7 @@ const ContactSection = () => {
             type="submit"
             variant="hero"
             size="lg"
-            className="w-full"
+            className="w-full snow-cap"
             disabled={isLoading}
           >
             {isLoading ? (

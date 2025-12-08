@@ -44,8 +44,8 @@ const TeamSection = () => {
               key={index}
               className="text-center group"
             >
-              <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 rounded-full bg-gradient-primary p-[2px] group-hover:shadow-glow transition-all duration-300">
-                <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
+              <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 rounded-full bg-gradient-primary p-[2px] group-hover:shadow-glow transition-all duration-300 snow-cap-round">
+                <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden relative">
                   <img
                     src={member.image}
                     alt={member.name}

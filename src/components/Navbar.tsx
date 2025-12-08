@@ -36,6 +36,7 @@ const Navbar = () => {
               variant="nav"
               size="sm"
               onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
+              className="snow-cap"
             >
               View Work
             </Button>

@@ -60,7 +60,18 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    cursor: none !important;
   }
+}
+
+/* Force cursor none on interactive elements to let custom cursor take over */
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+  cursor: none !important;
 }
 
 @layer utilities {
@@ -95,6 +106,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -104,6 +116,7 @@
   0% {
     transform: translateX(-50%);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -127,6 +140,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -138,17 +152,32 @@
 }
 
 /* Stagger delay utilities */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
 
 /* Portfolio slider */
 @keyframes scroll-left {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -191,4 +220,3 @@
 .overflow-x-auto:hover {
   scrollbar-color: hsl(var(--primary) / 0.4) transparent;
 }
-
