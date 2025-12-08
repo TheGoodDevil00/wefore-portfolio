@@ -47,11 +47,11 @@ const SnowEffect: React.FC = () => {
             // Create a larger burst of particles for the tail (Increased density)
             for (let i = 0; i < 8; i++) {
                 trailParticles.push({
-                    x: x + (Math.random() - 0.5) * 15, // Slightly wider spread
+                    x: x + (Math.random() - 0.5) * 15,
                     y: y + (Math.random() - 0.5) * 15,
-                    radius: Math.random() * 2 + 1, // Slightly larger base
+                    radius: Math.random() * 2 + 1,
                     speed: Math.random() * 2 + 1,
-                    opacity: Math.random() * 0.5 + 0.5, // Varied opacity
+                    opacity: Math.random() * 0.5 + 0.5,
                     drift: (vx * 0.5) + (Math.random() - 0.5) * 2,
                 });
             }
@@ -68,7 +68,6 @@ const SnowEffect: React.FC = () => {
 
             // Draw Falling Snow
             ctx.fillStyle = "white";
-            // We can disable shadow for background snow for some perf gain or dept contrast
             ctx.shadowBlur = 0;
             snowflakes.forEach((flake) => {
                 ctx.beginPath();
@@ -79,7 +78,7 @@ const SnowEffect: React.FC = () => {
 
             // Draw Trail with Glow
             ctx.shadowColor = "white";
-            ctx.shadowBlur = 8; // Subtle glow
+            ctx.shadowBlur = 8;
             trailParticles.forEach((p) => {
                 ctx.beginPath();
                 ctx.globalAlpha = p.opacity;
@@ -88,7 +87,6 @@ const SnowEffect: React.FC = () => {
                 ctx.fill();
             });
 
-            // Reset context
             ctx.globalAlpha = 1.0;
             ctx.shadowBlur = 0;
         };
@@ -119,7 +117,6 @@ const SnowEffect: React.FC = () => {
                     flake.y += repulseY;
                 }
 
-                // Wrap around
                 if (flake.y > canvas.height) {
                     flake.y = -flake.radius;
                     flake.x = Math.random() * canvas.width;
@@ -165,15 +162,34 @@ const SnowEffect: React.FC = () => {
             mouseRef.current = { x: e.clientX, y: e.clientY };
         };
 
-        // Initial setup
+        const handleTouchMove = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                mouseRef.current = { x: touch.clientX, y: touch.clientY };
+            }
+        };
+
+        const handleTouchEnd = () => {
+            mouseRef.current = { x: -1000, y: -1000 };
+        };
+
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('mousemove', handleMouseMove);
+
+        // Touch events
+        window.addEventListener('touchstart', handleTouchMove, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: true });
+        window.addEventListener('touchend', handleTouchEnd);
+
         animate();
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('touchstart', handleTouchMove);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
