@@ -84,6 +84,7 @@ const Navbar = () => {
             >
               View Work
             </Button>
+            <ThemeToggle />
           </div>
         </div>
       )}
