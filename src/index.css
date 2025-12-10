@@ -94,18 +94,24 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
-    cursor: none !important;
   }
-}
 
-/* Force cursor none on interactive elements to let custom cursor take over */
-a,
-button,
-[role="button"],
-input,
-select,
-textarea {
-  cursor: none !important;
+  /* Hide cursor on desktop only (custom cursor effect) */
+  @media (min-width: 768px) {
+    body {
+      cursor: none !important;
+    }
+
+    /* Force cursor none on interactive elements to let custom cursor take over */
+    a,
+    button,
+    [role="button"],
+    input,
+    select,
+    textarea {
+      cursor: none !important;
+    }
+  }
 }
 
 @layer utilities {

@@ -4,8 +4,27 @@ const CustomCursor = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isPointer, setIsPointer] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Check if device is mobile/touch device
+    useEffect(() => {
+        const checkMobile = () => {
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const isSmallScreen = window.innerWidth < 768;
+            setIsMobile(isTouchDevice || isSmallScreen);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
 
     useEffect(() => {
+        // Don't add mouse event listeners on mobile
+        if (isMobile) return;
         const updatePosition = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
         };
@@ -39,7 +58,10 @@ const CustomCursor = () => {
             window.removeEventListener('mouseup', handleMouseUp);
             window.removeEventListener('mousemove', updateCursorType);
         };
-    }, [position.x, position.y]);
+    }, [position.x, position.y, isMobile]);
+
+    // Don't render custom cursor on mobile devices
+    if (isMobile) return null;
 
     return (
         <div
