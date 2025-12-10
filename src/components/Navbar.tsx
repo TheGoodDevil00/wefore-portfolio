@@ -22,13 +22,13 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Logo - Far Left */}
           <a href="#home" className="flex items-center gap-2">
             <img src={logoSrc} alt="WeFore Logo" className="h-14 w-auto" />
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Center */}
+          <div className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -38,6 +38,10 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
+          </div>
+
+          {/* Right Side - CTA Button & Theme Toggle */}
+          <div className="hidden md:flex items-center gap-4">
             <Button
               variant="nav"
               size="sm"
