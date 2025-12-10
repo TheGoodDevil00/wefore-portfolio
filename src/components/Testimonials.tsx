@@ -2,19 +2,19 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "CEO, TechStart",
-    content: "WeFore transformed our social media presence completely. Our engagement went up 400% in just 3 months!",
+    name: "Darshan & Varsha Gandhi",
+    role: "Treat Studio Cafe",
+    content: "WeFore truly understood our vision and brought it to life with exceptional creativity. Their unique content perfectly captured our brand identity and elevated our cafe's aesthetic.",
   },
   {
-    name: "Marcus Johnson",
-    role: "Founder, FitLife",
-    content: "The reels they create are absolute fire. Our Instagram following doubled and conversions are through the roof.",
+    name: "Shubhankar Waichal",
+    role: "Platinum Event",
+    content: "The quality of work WeFore delivers is outstanding. They created distinctive content that set our brand apart and beautifully showcased what makes our events special.",
   },
   {
-    name: "Emily Rodriguez",
-    role: "Marketing Director, StyleCo",
-    content: "Professional, creative, and results-driven. WeFore is the best decision we made for our brand.",
+    name: "Aditiya Takawale",
+    role: "Tumbledry",
+    content: "Working with WeFore was a game-changer for our brand identity. Their creative approach and attention to detail resulted in content that truly represents who we are.",
   },
 ];
 
