@@ -12,7 +12,7 @@ const testimonials = [
     content: "The quality of work WeFore delivers is outstanding. They created distinctive content that set our brand apart and beautifully showcased what makes our events special.",
   },
   {
-    name: "Aditiya Takawale",
+    name: "Aditya Takawale",
     role: "Tumbledry",
     content: "Working with WeFore was a game-changer for our brand identity. Their creative approach and attention to detail resulted in content that truly represents who we are.",
   },

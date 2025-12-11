@@ -3,9 +3,9 @@ import React from "react";
 const teamMembers = [
   {
     name: "Shriya Malode",
-    role: "Managing Director and Founder",
+    role: "Founder and Social Media Manager",
     bio: "Leading the vision and growth of the agency.",
-    image: "/images/team/shriya-malode-new.png",
+    image: "/images/team/shriya-new.jpg",
   },
   {
     name: "Sanyog Swami",
@@ -15,7 +15,7 @@ const teamMembers = [
   },
   {
     name: "Parth Shinde",
-    role: "Graphics Designer and Social Media Manager",
+    role: "Graphics Designer",
     bio: "Designing visual experiences and managing social presence.",
     image: "/images/team/parth-shinde-new.jpg",
   },
