@@ -306,7 +306,8 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
-  display: flex;
+  display: none;
+  /* Hidden by default (mobile) */
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
@@ -322,6 +323,13 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
   max-width: calc(100% - 2rem);
   width: auto;
+}
+
+/* Show desktop navbar only on md screens and up */
+@media (min-width: 768px) {
+  .glass-navbar {
+    display: flex;
+  }
 }
 
 .glass-navbar:hover {
@@ -394,6 +402,88 @@
 }
 
 .dark .glass-navbar__link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Glass Navbar */
+.glass-navbar-mobile {
+  --lg-bg-color: rgba(255, 255, 255, 0.15);
+  --lg-highlight: rgba(255, 255, 255, 0.6);
+
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  z-index: 50;
+  display: flex;
+  /* Shown by default (mobile) */
+  flex-direction: column;
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  background: var(--lg-bg-color);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    0 0 40px rgba(0, 0, 0, 0.05),
+    inset 1px 1px 0 var(--lg-highlight),
+    inset 0 0 8px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Hide mobile navbar on md screens and up */
+@media (min-width: 768px) {
+  .glass-navbar-mobile {
+    display: none;
+  }
+}
+
+.glass-navbar-mobile .glass-navbar__logo img {
+  height: 2rem;
+  width: auto;
+}
+
+/* Mobile Glass Menu Dropdown */
+.glass-mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-mobile-menu__link {
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.glass-mobile-menu__link:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Dark mode mobile navbar */
+.dark .glass-navbar-mobile {
+  --lg-bg-color: rgba(0, 0, 0, 0.3);
+  --lg-highlight: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(0, 0, 0, 0.2),
+    inset 1px 1px 0 var(--lg-highlight),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass-mobile-menu {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass-mobile-menu__link:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 

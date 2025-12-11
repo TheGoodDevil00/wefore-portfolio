@@ -52,16 +52,17 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Navbar */}
-      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <a href="#home" className="flex items-center gap-2">
-              <img src={logoSrc} alt="WeFore Logo" className="h-10 w-auto" />
-            </a>
+      {/* Mobile Glass Navbar */}
+      <nav className="glass-navbar-mobile md:hidden">
+        <div className="flex items-center justify-between w-full">
+          <a href="#home" className="glass-navbar__logo">
+            <img src={logoSrc} alt="WeFore Logo" />
+          </a>
 
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
-              className="text-foreground p-2"
+              className="text-foreground p-2 rounded-full hover:bg-white/10 transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -70,33 +71,30 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Dropdown */}
         {isOpen && (
-          <div className="bg-background border-t border-border">
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
-              <Button
-                variant="glass"
-                size="sm"
-                className="w-fit"
-                onClick={() => {
-                  setIsOpen(false);
-                  document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
-                }}
+          <div className="glass-mobile-menu">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="glass-mobile-menu__link"
+                onClick={() => setIsOpen(false)}
               >
-                View Work
-              </Button>
-              <ThemeToggle />
-            </div>
+                {link.name}
+              </a>
+            ))}
+            <Button
+              variant="glass"
+              size="sm"
+              className="w-full mt-2"
+              onClick={() => {
+                setIsOpen(false);
+                document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              View Work
+            </Button>
           </div>
         )}
       </nav>
