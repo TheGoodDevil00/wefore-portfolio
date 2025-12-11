@@ -183,7 +183,7 @@ const ContactSection = () => {
 
           <Button
             type="submit"
-            variant="hero"
+            variant="glass"
             size="lg"
             className="w-full snow-cap"
             disabled={isLoading}

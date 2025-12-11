@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
 import { useTheme } from "@/components/ThemeProvider";
 
 const Navbar = () => {
@@ -19,80 +18,89 @@ const Navbar = () => {
   const logoSrc = theme === 'light' ? "/images/logo-light.png" : "/images/logo.png";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Far Left */}
-          <a href="#home" className="flex items-center gap-2">
-            <img src={logoSrc} alt="WeFore Logo" className="h-14 w-auto" />
-          </a>
+    <>
+      {/* Desktop Glass Navbar */}
+      <nav className="glass-navbar hidden md:flex">
+        {/* Logo */}
+        <a href="#home" className="glass-navbar__logo">
+          <img src={logoSrc} alt="WeFore Logo" />
+        </a>
 
-          {/* Desktop Navigation - Center */}
-          <div className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm font-medium"
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-
-          {/* Right Side - CTA Button & Theme Toggle */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button
-              variant="nav"
-              size="sm"
-              onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
+        {/* Navigation Links */}
+        <div className="glass-navbar__links">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="glass-navbar__link"
             >
-              View Work
-            </Button>
-            <ThemeToggle />
-          </div>
+              {link.name}
+            </a>
+          ))}
+        </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground p-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
+        {/* Actions */}
+        <div className="glass-navbar__actions">
+          <Button
+            variant="glass"
+            size="sm"
+            onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            View Work
+          </Button>
+          <ThemeToggle />
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden bg-background border-t border-border">
-          <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-300 py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </a>
-            ))}
-            <Button
-              variant="nav"
-              size="sm"
-              className="w-fit"
-              onClick={() => {
-                setIsOpen(false);
-                document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
-              }}
+      {/* Mobile Navbar */}
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <a href="#home" className="flex items-center gap-2">
+              <img src={logoSrc} alt="WeFore Logo" className="h-10 w-auto" />
+            </a>
+
+            <button
+              className="text-foreground p-2"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
-              View Work
-            </Button>
-            <ThemeToggle />
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
-      )}
-    </nav>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="bg-background border-t border-border">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.name}
+                </a>
+              ))}
+              <Button
+                variant="glass"
+                size="sm"
+                className="w-fit"
+                onClick={() => {
+                  setIsOpen(false);
+                  document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                View Work
+              </Button>
+              <ThemeToggle />
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   );
 };
 

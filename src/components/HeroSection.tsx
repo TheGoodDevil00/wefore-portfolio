@@ -39,7 +39,7 @@ const HeroSection = () => {
           {/* CTA Button */}
           <div className="animate-fade-in-up delay-300">
             <Button
-              variant="hero"
+              variant="glass"
               size="xl"
               onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
               className="group snow-cap"
