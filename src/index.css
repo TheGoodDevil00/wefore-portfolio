@@ -1255,3 +1255,169 @@
     max-width: 80%;
   }
 }
+
+/* ========== CUSTOM CURSOR STYLES ========== */
+.custom-cursor {
+  position: fixed;
+  z-index: 9999;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease-in-out, border-width 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Cursor ring - default state */
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid hsl(263, 70%, 50%);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Cursor dot */
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: hsl(263, 70%, 50%);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Rotating text container */
+.cursor-text-circle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Text wrapper - handles rotation animation */
+.cursor-text-wrapper {
+  position: absolute;
+  width: 0;
+  height: 0;
+  animation: cursorRotate 8s linear infinite;
+  animation-play-state: paused;
+}
+
+@keyframes cursorRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Individual character styling */
+.cursor-char {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: -5px;
+  top: -28px;
+  transform-origin: 50% 28px;
+  color: hsl(263, 70%, 50%);
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+}
+
+/* ========== ACTIVE STATE (on hover over cards/buttons) ========== */
+.custom-cursor.active::before {
+  width: 60px;
+  height: 60px;
+  border-color: hsl(263, 70%, 50%);
+  background: hsl(263, 70%, 50%);
+  box-shadow: inset 0 0 0 30px hsl(263, 70%, 50%);
+}
+
+.custom-cursor.active::after {
+  opacity: 0;
+}
+
+.custom-cursor.active .cursor-text-circle {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.custom-cursor.active .cursor-text-wrapper {
+  animation-play-state: running;
+}
+
+.custom-cursor.active .cursor-char {
+  color: white;
+}
+
+/* ========== LINK HOVER STATE ========== */
+.custom-cursor.linkhover::before {
+  width: 40px;
+  height: 40px;
+  border-color: transparent;
+  border-width: 3px;
+  box-shadow: 0 0 0 2px hsl(263, 70%, 60%);
+  background: hsla(263, 70%, 50%, 0.1);
+}
+
+.custom-cursor.linkhover::after {
+  width: 8px;
+  height: 8px;
+  background: hsl(263, 70%, 60%);
+}
+
+/* ========== DARK MODE ADJUSTMENTS ========== */
+.dark .custom-cursor::before {
+  border-color: hsl(263, 70%, 60%);
+}
+
+.dark .custom-cursor::after {
+  background: hsl(263, 70%, 60%);
+}
+
+.dark .cursor-char {
+  color: hsl(263, 70%, 60%);
+}
+
+.dark .custom-cursor.active::before {
+  border-color: hsl(263, 70%, 60%);
+  background: hsl(263, 70%, 60%);
+  box-shadow: inset 0 0 0 30px hsl(263, 70%, 60%);
+}
+
+.dark .custom-cursor.linkhover::before {
+  box-shadow: 0 0 0 2px hsl(263, 70%, 70%);
+  background: hsla(263, 70%, 60%, 0.15);
+}
+
+.dark .custom-cursor.linkhover::after {
+  background: hsl(263, 70%, 70%);
+}
+
+/* ========== HIDE CURSOR ON MOBILE ========== */
+@media (max-width: 767px) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
