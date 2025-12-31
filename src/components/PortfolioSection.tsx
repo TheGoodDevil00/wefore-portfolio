@@ -7,7 +7,22 @@ import {
 } from "@/components/ui/dialog";
 import { useState, useRef } from "react";
 import CloudinaryVideo from "@/components/CloudinaryVideo";
+import YouTubeVideo from "@/components/YouTubeVideo";
 import { cloudinaryReels, cloudinaryStories, posterImages } from "@/config/cloudinaryVideos";
+
+// YouTube Shorts/Reels - Add your YouTube video IDs here
+const youtubeReels = [
+  "n90V4QBGvYo",
+  "Gq1hGUvYuVY",
+  "PWCiQ74lygc",
+  "ovEs2MUNOHM",
+  "E2x9nOA9aJ8",
+  "ZAc8Z8GvWrI",
+  "aYlzD_M2G5k",
+  "kREXc8ugivE",
+  "s3gJzYhFJhk",
+  "K3pbWMIJ6kI",
+];
 
 const reels = [
   "/videos/reels/sizzling-brownie.mp4",
@@ -80,10 +95,11 @@ interface PortfolioRowProps {
   isVertical?: boolean;
   animationClass?: string;
   isVideo?: boolean;
-  useCloudinary?: boolean; // New prop to indicate if items are Cloudinary public IDs
+  useCloudinary?: boolean;
+  useYouTube?: boolean; // New prop for YouTube videos
 }
 
-const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass = "animate-scroll-left", isVideo = false, useCloudinary = false }: PortfolioRowProps) => {
+const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass = "animate-scroll-left", isVideo = false, useCloudinary = false, useYouTube = false }: PortfolioRowProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -134,7 +150,13 @@ const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass =
                     <DialogTrigger asChild>
                       <div className="w-full h-full relative">
                         {isVideo ? (
-                          useCloudinary ? (
+                          useYouTube ? (
+                            // YouTube Video with hover preview
+                            <YouTubeVideo
+                              videoId={item}
+                              className="w-full h-full"
+                            />
+                          ) : useCloudinary ? (
                             // Cloudinary Video with optimization
                             <CloudinaryVideo
                               publicId={item}
@@ -171,7 +193,18 @@ const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass =
                     <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
                       <div className="relative w-full h-full flex items-center justify-center">
                         {isVideo ? (
-                          useCloudinary ? (
+                          useYouTube ? (
+                            // YouTube Video Embed in Dialog
+                            <div className="w-full aspect-[9/16] max-h-[90vh]">
+                              <iframe
+                                src={`https://www.youtube.com/embed/${item}?autoplay=1&loop=1&playlist=${item}`}
+                                className="w-full h-full rounded-md"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                title="YouTube video"
+                              />
+                            </div>
+                          ) : useCloudinary ? (
                             // Cloudinary Video in Dialog
                             <CloudinaryVideo
                               publicId={item}
@@ -228,10 +261,10 @@ const PortfolioSection = () => {
           <PortfolioRow
             title="Reels"
             icon={<Play size={24} />}
-            items={cloudinaryReels}
+            items={youtubeReels}
             isVertical={true}
             isVideo={true}
-            useCloudinary={true}
+            useYouTube={true}
           />
 
           <PortfolioRow
