@@ -36,6 +36,20 @@ const youtubeReels = [
   "l34XZQglpck",
 ];
 
+// YouTube Shorts/Stories - Motion Stories videos
+const youtubeStories = [
+  "4h04aFuogI4",
+  "qix6kDJsHYM",
+  "HvS2UGCIDfY",
+  "zbpn4acLlwU",
+  "CdAM4FyCv0A",
+  "9zLl6utV1FM",
+  "aCkIZgEcVKg",
+  "2UNPsl5BVaM",
+  "wrjZ9fLaasI",
+  "5kePkrCacPY",
+];
+
 const reels = [
   "/videos/reels/sizzling-brownie.mp4",
   "/videos/reels/platinum-events.mp4",
@@ -289,10 +303,10 @@ const PortfolioSection = () => {
           <PortfolioRow
             title="Motion Stories"
             icon={<Film size={24} />}
-            items={cloudinaryStories}
+            items={youtubeStories}
             isVertical={true}
             isVideo={true}
-            useCloudinary={true}
+            useYouTube={true}
           />
         </div>
       </div>
