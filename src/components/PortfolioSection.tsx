@@ -22,6 +22,18 @@ const youtubeReels = [
   "kREXc8ugivE",
   "s3gJzYhFJhk",
   "K3pbWMIJ6kI",
+  // New videos added
+  "hPR9dWNg5fY",
+  "vT_1c9h5PJE",
+  "RRo91F2oL8k",
+  "AQc2poamT2M",
+  "R3reWdTUN5w",
+  "AUUN9XBbomY",
+  "k8oQpPCAg0o",
+  "wYK7CSKS0No",
+  "Sd-AEeR6wII",
+  "ewwpMy_vgHQ",
+  "l34XZQglpck",
 ];
 
 const reels = [
