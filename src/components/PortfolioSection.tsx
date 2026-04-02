@@ -12,6 +12,9 @@ import { cloudinaryReels, cloudinaryStories, posterImages } from "@/config/cloud
 
 // YouTube Shorts/Reels - Add your YouTube video IDs here
 const youtubeReels = [
+  "2mGsyVlC5YQ",
+  "lF7nXuMr8UU",
+  "OmSKEzFk1rI",
   "n90V4QBGvYo",
   "Gq1hGUvYuVY",
   "PWCiQ74lygc",

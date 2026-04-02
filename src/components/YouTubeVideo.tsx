@@ -44,7 +44,7 @@ const YouTubeVideo = ({ videoId, className = '' }: YouTubeVideoProps) => {
             {isHovering && (
                 <iframe
                     src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&enablejsapi=1`}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     title="YouTube video preview"
                     style={{ border: 'none' }}
