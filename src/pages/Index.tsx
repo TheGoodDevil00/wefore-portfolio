@@ -6,19 +6,29 @@ import PortfolioSection from "@/components/PortfolioSection";
 import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 const Index = () => {
+  useEffect(() => {
+    // Ensuring the theme is set properly, default to light as per New Genre
+    document.documentElement.classList.remove('dark');
+  }, []);
+
   return (
-    <main className="min-h-screen bg-background">
+    <div className="min-h-screen font-body text-ebon-depth bg-sky-canvas relative">
       <Navbar />
       <HeroSection />
-      <ClientLogos />
-      <Testimonials />
-      <PortfolioSection />
-      <TeamSection />
-      <ContactSection />
+      
+      <div className="relative z-10">
+        <ClientLogos />
+        <Testimonials />
+        <PortfolioSection />
+        <TeamSection />
+        <ContactSection />
+      </div>
+
       <Footer />
-    </main>
+    </div>
   );
 };
 

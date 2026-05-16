@@ -12,12 +12,16 @@ export const getCloudinaryVideoUrl = (publicId: string, options?: {
 }) => {
   const { quality = 'auto', format = 'auto', width, height } = options || {};
   
-  let transformations = `q_${quality},f_${format}`;
+  const transformationParts = [`q_${quality}`, `f_${format}`];
   
-  if (width) transformations += `,w_${width}`;
-  if (height) transformations += `,h_${height}`;
+  if (width) transformationParts.push(`w_${width}`);
+  if (height) transformationParts.push(`h_${height}`);
+  if (width && height) transformationParts.push('c_limit'); // Prevent upscaling
+
+  const transformationString = transformationParts.join(',');
   
-  return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformations}/${publicId}`;
+  // Appending .mp4 extension helps browsers identify the resource type
+  return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformationString}/${publicId}.mp4`;
 };
 
 // Helper function to get Cloudinary video thumbnail

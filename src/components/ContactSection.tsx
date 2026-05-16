@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { Send, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, Send } from "lucide-react";
 
 const ContactSection = () => {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,21 +22,15 @@ const ContactSection = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Replace this URL with your Google Apps Script Web App URL
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2Z5D3FweIbX7RIFALDClRWw9u7izwXd13L53OZLM-YNb5LG4ksgQnHSpGWft-FCB5/exec";
 
     if (!GOOGLE_SCRIPT_URL) {
-      toast({
-        title: "Configuration Required",
-        description: "Please set up your Google Sheets webhook URL in the code.",
-        variant: "destructive",
-      });
+      alert("Configuration Required: Please set up your Google Sheets webhook URL in the code.");
       setIsLoading(false);
       return;
     }
 
     try {
-      // Use custom business type if "Other" is selected
       const finalBusinessType = formData.businessType === "Other"
         ? formData.customBusinessType
         : formData.businessType;
@@ -54,15 +43,12 @@ const ContactSection = () => {
         },
         body: JSON.stringify({
           ...formData,
-          businessType: finalBusinessType, // Send the resolved business type
+          businessType: finalBusinessType,
           timestamp: new Date().toISOString(),
         }),
       });
 
-      toast({
-        title: "Request Sent!",
-        description: "We'll get back to you within 24 hours.",
-      });
+      alert("Request Sent! We'll get back to you within 24 hours.");
 
       setFormData({
         name: "",
@@ -72,11 +58,7 @@ const ContactSection = () => {
         email: "",
       });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      alert("Error: Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -94,50 +76,52 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-card/30">
-      <div className="container mx-auto px-4">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-4">
-          Start A <span className="text-gradient">Project</span>
+    <section id="contact" className="py-12 md:py-24 bg-transparent border-t border-black/5">
+      <div className="container mx-auto px-4 md:px-6">
+        <h2 className="font-display text-[24px] md:text-display-sm text-ebon-depth text-center mb-2 md:mb-4 font-semibold tracking-tight">
+          Start A Project
         </h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto">
+        <p className="font-body text-[13px] md:text-body text-mist-gray text-center mb-8 md:mb-16 max-w-xl mx-auto">
           Ready to transform your social media? Let's talk.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto space-y-6"
+          className="max-w-xl mx-auto space-y-4 md:space-y-6"
         >
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-foreground">Name</Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="bg-secondary border-border focus:border-primary"
-            />
+          <div className="space-y-4 md:space-y-6">
+            <div className="space-y-1.5 md:space-y-2">
+              <label htmlFor="name" className="font-body text-[12px] md:text-[14px] text-ebon-depth ml-4 block">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="input-round w-full text-[14px] md:text-[16px] py-3 md:py-4"
+              />
+            </div>
+
+            <div className="space-y-1.5 md:space-y-2">
+              <label htmlFor="email" className="font-body text-[12px] md:text-[14px] text-ebon-depth ml-4 block">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="your@email.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="input-round w-full text-[14px] md:text-[16px] py-3 md:py-4"
+              />
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="your@email.com"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="bg-secondary border-border focus:border-primary"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="phone" className="text-foreground">Phone</Label>
-            <Input
+          <div className="space-y-1.5 md:space-y-2">
+            <label htmlFor="phone" className="font-body text-[12px] md:text-[14px] text-ebon-depth ml-4 block">Phone</label>
+            <input
               id="phone"
               name="phone"
               type="tel"
@@ -145,19 +129,19 @@ const ContactSection = () => {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="bg-secondary border-border focus:border-primary"
+              className="input-round w-full text-[14px] md:text-[16px] py-3 md:py-4"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="businessType" className="text-foreground">Business Type</Label>
+          <div className="space-y-1.5 md:space-y-2">
+            <label htmlFor="businessType" className="font-body text-[12px] md:text-[14px] text-ebon-depth ml-4 block">Business Type</label>
             <select
               id="businessType"
               name="businessType"
               value={formData.businessType}
               onChange={handleChange}
               required
-              className="w-full h-10 px-3 rounded-lg bg-secondary border border-border text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+              className="input-round w-full appearance-none text-[14px] md:text-[16px] py-3 md:py-4"
             >
               <option value="" disabled>Select your business type</option>
               {businessTypes.map((type) => (
@@ -168,7 +152,7 @@ const ContactSection = () => {
             </select>
 
             {formData.businessType === "Other" && (
-              <Input
+              <input
                 id="customBusinessType"
                 name="customBusinessType"
                 type="text"
@@ -176,30 +160,28 @@ const ContactSection = () => {
                 value={formData.customBusinessType || ""}
                 onChange={handleChange}
                 required
-                className="mt-2 bg-secondary border-border focus:border-primary animate-fade-in-up"
+                className="input-round w-full mt-3 text-[14px] md:text-[16px] py-3 md:py-4"
               />
             )}
           </div>
 
-          <Button
+          <button
             type="submit"
-            variant="glass"
-            size="lg"
-            className="w-full snow-cap"
+            className="w-full mt-4 md:mt-8 flex items-center justify-center gap-2 text-whisper-white bg-ebon-depth hover:bg-ebon-depth/90 px-8 py-3.5 md:py-4 rounded-full font-body font-medium text-[14px] md:text-[16px] transition-all"
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={16} />
                 Sending...
               </>
             ) : (
               <>
                 Send Request
-                <Send className="ml-2" size={18} />
+                <Send size={16} />
               </>
             )}
-          </Button>
+          </button>
         </form>
       </div>
     </section>

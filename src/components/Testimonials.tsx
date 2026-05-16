@@ -1,5 +1,3 @@
-import { Quote } from "lucide-react";
-
 const testimonials = [
   {
     name: "Darshan & Varsha Gandhi",
@@ -20,34 +18,28 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-12">
-          What Our <span className="text-gradient">Clients</span> Say
+    <section className="py-12 md:py-24 bg-transparent border-t border-black/5">
+      <div className="container mx-auto px-4 md:px-6">
+        <h2 className="font-display text-[24px] md:text-display-sm text-ebon-depth text-center mb-8 md:mb-16 font-semibold tracking-tight">
+          What Our Clients Say
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-8">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 group snow-cap"
+              className="card-process flex flex-col justify-between p-6 md:p-12 min-h-0 md:min-h-[320px]"
             >
-              <Quote className="text-primary/40 mb-4 group-hover:text-primary/60 transition-colors" size={32} />
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="font-body text-[14px] md:text-[20px] text-onyx-shadow mb-5 md:mb-8 leading-relaxed">
                 "{testimonial.content}"
               </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground font-semibold">
-                  {testimonial.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-muted-foreground text-xs">
-                    {testimonial.role}
-                  </p>
-                </div>
+              <div className="border-t border-black/5 pt-4 md:pt-6">
+                <p className="font-display text-[17px] md:text-[24px] text-ebon-depth mb-0.5">
+                  {testimonial.name}
+                </p>
+                <p className="font-body text-[11px] md:text-[14px] text-mist-gray tracking-[-0.14px] uppercase">
+                  {testimonial.role}
+                </p>
               </div>
             </div>
           ))}

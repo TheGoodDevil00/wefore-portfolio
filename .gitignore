@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Project specific junk
+scratch/
+restructure/
+videosources.txt
+*.md
+!README.md
+!src/**/*.md

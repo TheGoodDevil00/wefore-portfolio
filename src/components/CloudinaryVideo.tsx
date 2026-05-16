@@ -77,7 +77,7 @@ const CloudinaryVideo = ({
             <video
                 ref={videoRef}
                 src={videoUrl}
-                className={className}
+                className={`w-full h-full object-cover ${className}`}
                 muted={muted}
                 loop={loop}
                 controls={controls}

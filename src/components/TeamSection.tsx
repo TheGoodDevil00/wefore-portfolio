@@ -1,5 +1,3 @@
-import React from "react";
-
 const teamMembers = [
   {
     name: "Shriya Malode",
@@ -29,37 +27,37 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-4">
-          Meet The <span className="text-gradient">Team</span>
-        </h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto">
-          The creative minds behind your brand's success.
-        </p>
+    <section className="py-12 md:py-24 bg-transparent border-t border-black/5">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="font-display text-[24px] md:text-display-sm text-ebon-depth mb-2 md:mb-4 font-semibold tracking-tight">
+            Meet The Team
+          </h2>
+          <p className="font-body text-[13px] md:text-body text-mist-gray max-w-xl mx-auto">
+            The creative minds behind your brand's success.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12 max-w-6xl mx-auto">
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="text-center group"
+              className="text-center group flex flex-col items-center"
             >
-              <div className="w-24 h-24 md:w-28 md:h-28 mx-auto mb-4 rounded-full bg-gradient-primary p-[2px] group-hover:shadow-glow transition-all duration-300 snow-cap-round">
-                <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden relative">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="w-20 h-20 md:w-40 md:h-40 mb-3 md:mb-6 rounded-full overflow-hidden ring-2 md:ring-4 ring-mist-gray/10 hover:ring-mist-gray/30 transition-all duration-300">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <h3 className="font-semibold text-foreground text-sm md:text-base mb-1">
+              <h3 className="font-display text-[14px] md:text-subheading text-ebon-depth mb-0.5 md:mb-1 leading-tight">
                 {member.name}
               </h3>
-              <p className="text-primary text-xs md:text-sm mb-2">
+              <p className="font-body text-[10px] md:text-[14px] text-mist-gray tracking-[-0.14px] mb-1 md:mb-3 uppercase leading-snug">
                 {member.role}
               </p>
-              <p className="text-muted-foreground text-xs hidden md:block">
+              <p className="font-body text-[12px] md:text-body text-onyx-shadow hidden md:block">
                 {member.bio}
               </p>
             </div>

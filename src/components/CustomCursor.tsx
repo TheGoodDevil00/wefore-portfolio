@@ -49,12 +49,16 @@ const CustomCursor = () => {
 
     // Mouse tracking and hover detection
     useEffect(() => {
-        if (isMobile) return;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isMobile || prefersReducedMotion) return;
+
+        // Add class to hide default cursor
+        document.body.classList.add('custom-cursor-active');
 
         const handleMouseMove = (e: MouseEvent) => {
             mouseRef.current.x = e.clientX;
             mouseRef.current.y = e.clientY;
-            setIsVisible(true);
+            if (!isVisible) setIsVisible(true);
         };
 
         const handleMouseEnter = () => setIsVisible(true);
@@ -106,6 +110,7 @@ const CustomCursor = () => {
         document.addEventListener('mouseleave', handleMouseLeave);
 
         return () => {
+            document.body.classList.remove('custom-cursor-active');
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseover', handleMouseOver);
             document.removeEventListener('mouseenter', handleMouseEnter);
@@ -114,7 +119,7 @@ const CustomCursor = () => {
                 cancelAnimationFrame(animationFrameRef.current);
             }
         };
-    }, [isMobile, animate]);
+    }, [isMobile, isVisible, animate]);
 
     // Don't render on mobile
     if (isMobile) return null;

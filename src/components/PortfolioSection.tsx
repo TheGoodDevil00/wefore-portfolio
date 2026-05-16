@@ -1,318 +1,159 @@
-import { Play, Image, Film, X } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { useState, useRef } from "react";
-import CloudinaryVideo from "@/components/CloudinaryVideo";
-import YouTubeVideo from "@/components/YouTubeVideo";
-import { cloudinaryReels, cloudinaryStories, posterImages } from "@/config/cloudinaryVideos";
+import { useState, useEffect } from "react";
+import { youtubeReels, youtubeStories, posterImages } from "@/config/cloudinaryVideos";
+import YouTubeThumbnail from "./YouTubeThumbnail";
+import { PlaySquare, Image as ImageIcon, Film, X } from "lucide-react";
 
-// YouTube Shorts/Reels - Add your YouTube video IDs here
-const youtubeReels = [
-  "2mGsyVlC5YQ",
-  "lF7nXuMr8UU",
-  "OmSKEzFk1rI",
-  "n90V4QBGvYo",
-  "Gq1hGUvYuVY",
-  "PWCiQ74lygc",
-  "ovEs2MUNOHM",
-  "E2x9nOA9aJ8",
-  "ZAc8Z8GvWrI",
-  "aYlzD_M2G5k",
-  "kREXc8ugivE",
-  "s3gJzYhFJhk",
-  "K3pbWMIJ6kI",
-  // New videos added
-  "hPR9dWNg5fY",
-  "vT_1c9h5PJE",
-  "RRo91F2oL8k",
-  "AQc2poamT2M",
-  "R3reWdTUN5w",
-  "AUUN9XBbomY",
-  "k8oQpPCAg0o",
-  "wYK7CSKS0No",
-  "Sd-AEeR6wII",
-  "ewwpMy_vgHQ",
-  "l34XZQglpck",
-];
-
-// YouTube Shorts/Stories - Motion Stories videos
-const youtubeStories = [
-  "4h04aFuogI4",
-  "qix6kDJsHYM",
-  "HvS2UGCIDfY",
-  "zbpn4acLlwU",
-  "CdAM4FyCv0A",
-  "9zLl6utV1FM",
-  "aCkIZgEcVKg",
-  "2UNPsl5BVaM",
-  "wrjZ9fLaasI",
-  "5kePkrCacPY",
-];
-
-const reels = [
-  "/videos/reels/sizzling-brownie.mp4",
-  "/videos/reels/platinum-events.mp4",
-  "/videos/reels/treat-studio-madam-ji.mp4",
-  "/videos/reels/treat-studio-reel.mp4",
-  "/videos/reels/tumble-dry-final.mp4",
-  "/videos/reels/tumble-reel-3.mp4",
-  "/videos/reels/reel-1.mp4",
-  "/videos/reels/reel-2.mov",
-  "/videos/reels/reel-3.mp4",
-  "/videos/reels/reel-4.mp4",
-  "/videos/reels/reel-5.mp4",
-  "/videos/reels/reel-6.mp4",
-  "/videos/reels/reel-7.mp4",
-  "/videos/reels/reel-8.mp4",
-  "/videos/reels/reel-9.mp4",
-  "/videos/reels/reel-10.mov",
-  "/videos/reels/reel-11.mp4",
-  "/videos/reels/reel-12.mp4",
-  "/videos/reels/reel-13.mp4",
-  "/videos/reels/reel-14.mp4",
-  "/videos/reels/reel-15.mp4",
-  "/videos/reels/reel-16.mp4",
-  "/videos/reels/reel-17.mp4",
-  "/videos/reels/reel-18.mp4",
-  "/videos/reels/reel-19.mp4",
-  "/videos/reels/reel-20.mp4",
-  "/videos/reels/reel-21.mp4",
-  "/videos/reels/reel-22.mov",
-  "/videos/reels/reel-23.mp4",
-  "/videos/reels/reel-24.mp4",
-  "/videos/reels/reel-25.mp4",
-  "/videos/reels/reel-26.mp4",
-];
-
-const posters = [
-  "/images/posters/poster-1.jpg",
-  "/images/posters/poster-2.jpg",
-  "/images/posters/poster-3.jpg",
-  "/images/posters/poster-4.jpg",
-  "/images/posters/poster-5.jpg",
-  "/images/posters/poster-6.png",
-  "/images/posters/poster-7.jpg",
-  "/images/posters/poster-8.jpg",
-  "/images/posters/poster-9.png",
-  "/images/posters/poster-10.jpg",
-];
-const stories = [
-  "/videos/stories/fries.mp4",
-  "/videos/stories/garlic-potato-pops.mp4",
-  "/videos/stories/honey-chilli-potato.mp4",
-  "/videos/stories/honey-chilli-story.mp4",
-  "/videos/stories/korean-fries.mp4",
-  "/videos/stories/nacho-stories.mp4",
-  "/videos/stories/pancake.mp4",
-  "/videos/stories/pasta-story.mp4",
-  "/videos/stories/pink-alfredo-pasta.mp4",
-  "/videos/stories/potato-twister-story.mp4",
-  "/videos/stories/potato-twister-story-2.mp4",
-  "/videos/stories/tumble-dry-post.mp4",
-  "/videos/stories/story.mp4",
-  "/videos/stories/story-20250807.mp4",
-];
-
-interface PortfolioRowProps {
-  title: string;
-  icon: React.ReactNode;
-  items: string[] | null[];
-  isVertical?: boolean;
-  animationClass?: string;
-  isVideo?: boolean;
-  useCloudinary?: boolean;
-  useYouTube?: boolean; // New prop for YouTube videos
-}
-
-const PortfolioRow = ({ title, icon, items, isVertical = false, animationClass = "animate-scroll-left", isVideo = false, useCloudinary = false, useYouTube = false }: PortfolioRowProps) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Handle user interaction - pause auto-scroll
-  const handleUserInteraction = () => {
-    setIsPaused(true);
-
-    // Clear existing timeout
-    if (pauseTimeoutRef.current) {
-      clearTimeout(pauseTimeoutRef.current);
-    }
-
-    // Resume auto-scroll after 3 seconds of no interaction
-    pauseTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 3000);
-  };
-
-  return (
-    <div className="mb-10">
-      <div className="flex items-center gap-3 mb-4 px-4">
-        <div className="text-primary">{icon}</div>
-        <h3 className="font-display text-lg md:text-xl font-semibold text-foreground">
-          {title}
-        </h3>
-      </div>
-
-      {/* Scrollable container with auto-scroll and manual control */}
-      <div
-        ref={scrollRef}
-        className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent hover:scrollbar-thumb-primary/40"
-        onScroll={handleUserInteraction}
-        onMouseEnter={handleUserInteraction}
-        onTouchStart={handleUserInteraction}
-      >
-        <div className={`flex gap-4 pb-4 ${!isPaused ? animationClass : ''}`}>
-          {/* Duplicate items for infinite scroll effect */}
-          {[...items, ...items].map((item, index) => (
-            <div
-              key={index}
-              className={`shrink-0 ${isVertical ? "w-32 md:w-40 aspect-[9/16]" : "w-40 md:w-52 aspect-square"
-                } relative group cursor-pointer hover:scale-105 transition-all duration-300 snow-cap`}
-            >
-              <div className="w-full h-full bg-secondary rounded-xl border border-border hover:border-primary/50 flex items-center justify-center overflow-hidden relative">
-                {item && typeof item === 'string' ? (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <div className="w-full h-full relative">
-                        {isVideo ? (
-                          useYouTube ? (
-                            // YouTube Video with hover preview
-                            <YouTubeVideo
-                              videoId={item}
-                              className="w-full h-full"
-                            />
-                          ) : useCloudinary ? (
-                            // Cloudinary Video with optimization
-                            <CloudinaryVideo
-                              publicId={item}
-                              className="w-full h-full object-cover"
-                              playOnHover={true}
-                              showThumbnail={true}
-                              width={isVertical ? 400 : 600}
-                              height={isVertical ? 711 : 600}
-                            />
-                          ) : (
-                            // Local Video
-                            <video
-                              src={item}
-                              className="w-full h-full object-cover"
-                              muted
-                              loop
-                              onMouseEnter={(e) => e.currentTarget.play()}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.pause();
-                                e.currentTarget.currentTime = 0;
-                              }}
-                            />
-                          )
-                        ) : (
-                          <img src={item} alt={`Portfolio item ${index}`} className="w-full h-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500" />
-                        )}
-                        {isVideo && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none">
-                            <Play className="text-white opacity-80 group-hover:opacity-0 transition-opacity" size={32} />
-                          </div>
-                        )}
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl w-full p-0 overflow-hidden bg-transparent border-none shadow-none">
-                      <div className="relative w-full h-full flex items-center justify-center">
-                        {isVideo ? (
-                          useYouTube ? (
-                            // YouTube Video Embed in Dialog
-                            <div className="w-full aspect-[9/16] max-h-[90vh]">
-                              <iframe
-                                src={`https://www.youtube.com/embed/${item}?autoplay=1&loop=1&playlist=${item}`}
-                                className="w-full h-full rounded-md"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                title="YouTube video"
-                              />
-                            </div>
-                          ) : useCloudinary ? (
-                            // Cloudinary Video in Dialog
-                            <CloudinaryVideo
-                              publicId={item}
-                              className="max-w-full max-h-[90vh] rounded-md"
-                              controls={true}
-                              autoPlay={true}
-                              playOnHover={false}
-                              showThumbnail={false}
-                            />
-                          ) : (
-                            // Local Video in Dialog
-                            <video
-                              src={item}
-                              className="max-w-full max-h-[90vh] rounded-md"
-                              controls
-                              autoPlay
-                            />
-                          )
-                        ) : (
-                          <img src={item} alt={`Portfolio item ${index}`} className="max-w-full max-h-[90vh] object-contain rounded-md" />
-                        )}
-                        <DialogClose className="absolute top-4 right-4 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 transition-colors z-50">
-                          <X size={24} />
-                        </DialogClose>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Play className="text-muted-foreground group-hover:text-primary transition-colors" size={20} />
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+type PortfolioItem = {
+  type: "youtube" | "image";
+  content: string;
 };
 
 const PortfolioSection = () => {
+  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
+
+  // Lock scroll and hide navbar when modal is open
+  useEffect(() => {
+    if (selectedItem) {
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.style.overflow = "unset";
+      document.body.classList.remove("modal-open");
+    }
+    
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [selectedItem]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedItem(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
-    <section id="portfolio" className="py-20 bg-card/20">
-      <div className="container mx-auto">
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-4 px-4">
-          Our <span className="text-gradient">Work</span>
-        </h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto px-4">
-          Scroll through our latest creations — viral reels, stunning posters, and captivating motion stories.
-        </p>
+    <section id="portfolio" className="py-12 md:py-24 bg-transparent overflow-hidden border-t border-black/5">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="font-display text-[24px] md:text-display-sm text-ebon-depth mb-2 md:mb-4 font-semibold tracking-tight">
+            Our Work
+          </h2>
+          <p className="font-body text-[13px] md:text-body text-mist-gray max-w-2xl mx-auto">
+            Scroll through our latest creations — tap to watch.
+          </p>
+        </div>
 
-        <div className="space-y-8">
-          <PortfolioRow
-            title="Reels"
-            icon={<Play size={24} />}
-            items={youtubeReels}
-            isVertical={true}
-            isVideo={true}
-            useYouTube={true}
-          />
+        <div className="flex flex-col gap-8 md:gap-16">
 
-          <PortfolioRow
-            title="Creative Posters"
-            icon={<Image size={24} />}
-            items={posterImages}
-            isVertical={false}
-          />
+          {/* Reels Section */}
+          <div className="overflow-hidden">
+            <div className="flex items-center gap-2 mb-3 md:mb-6 text-ebon-depth">
+              <PlaySquare size={16} className="text-mist-gray md:w-5 md:h-5" />
+              <h3 className="font-display text-[18px] md:text-[24px] font-semibold tracking-tight">Reels</h3>
+            </div>
+            <div className={`flex animate-marquee hover:[animation-play-state:paused] gap-3 md:gap-4 pb-4 md:pb-8 w-max ${selectedItem ? "[animation-play-state:paused]" : ""}`}>
+              {[...youtubeReels, ...youtubeReels].map((id, index) => (
+                <div 
+                  key={`reel-${id}-${index}`} 
+                  className="w-[140px] md:w-[200px] shrink-0 aspect-[9/16] rounded-lg md:rounded-xl overflow-hidden bg-neutral-900"
+                >
+                  <YouTubeThumbnail
+                    videoId={id}
+                    onClick={() => setSelectedItem({ type: "youtube", content: id })}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
-          <PortfolioRow
-            title="Motion Stories"
-            icon={<Film size={24} />}
-            items={youtubeStories}
-            isVertical={true}
-            isVideo={true}
-            useYouTube={true}
-          />
+          {/* Creative Posters Section */}
+          <div className="overflow-hidden">
+            <div className="flex items-center gap-2 mb-3 md:mb-6 text-ebon-depth">
+              <ImageIcon size={16} className="text-mist-gray md:w-5 md:h-5" />
+              <h3 className="font-display text-[18px] md:text-[24px] font-semibold tracking-tight">Creative Posters</h3>
+            </div>
+            <div className={`flex animate-marquee-reverse hover:[animation-play-state:paused] gap-3 md:gap-4 pb-4 md:pb-8 w-max ${selectedItem ? "[animation-play-state:paused]" : ""}`}>
+              {[...posterImages, ...posterImages, ...posterImages].map((src, index) => (
+                <div 
+                  key={`poster-${index}`} 
+                  className="w-[200px] md:w-[300px] shrink-0 aspect-[4/5] rounded-lg md:rounded-xl overflow-hidden bg-muted border border-black/5 cursor-zoom-in hover:scale-[1.02] transition-transform duration-300"
+                  onClick={() => setSelectedItem({ type: "image", content: src })}
+                >
+                  <img src={src} alt={`Poster ${index + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Motion Stories Section */}
+          <div className="overflow-hidden">
+            <div className="flex items-center gap-2 mb-3 md:mb-6 text-ebon-depth">
+              <Film size={16} className="text-mist-gray md:w-5 md:h-5" />
+              <h3 className="font-display text-[18px] md:text-[24px] font-semibold tracking-tight">Motion Stories</h3>
+            </div>
+            <div className={`flex animate-marquee hover:[animation-play-state:paused] gap-3 md:gap-4 pb-4 md:pb-8 w-max ${selectedItem ? "[animation-play-state:paused]" : ""}`}>
+              {[...youtubeStories, ...youtubeStories].map((id, index) => (
+                <div 
+                  key={`story-${id}-${index}`} 
+                  className="w-[140px] md:w-[200px] shrink-0 aspect-[9/16] rounded-lg md:rounded-xl overflow-hidden bg-neutral-900"
+                >
+                  <YouTubeThumbnail
+                    videoId={id}
+                    onClick={() => setSelectedItem({ type: "youtube", content: id })}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Fullscreen Overlay — YouTube Embed or Image */}
+      {selectedItem && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-3 md:p-10 animate-in fade-in duration-300"
+          onClick={() => setSelectedItem(null)}
+        >
+          {/* Close button */}
+          <button 
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full transition-all z-[110]"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedItem(null);
+            }}
+          >
+            <X size={22} />
+          </button>
+          
+          <div 
+            className="relative w-full max-w-lg md:max-w-xl h-full flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {selectedItem.type === "youtube" ? (
+              <div className="w-full aspect-[9/16] max-h-[85vh] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-black">
+                <iframe
+                  src={`https://www.youtube.com/embed/${selectedItem.content}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                  title="YouTube video player"
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  frameBorder="0"
+                />
+              </div>
+            ) : (
+              <img 
+                src={selectedItem.content} 
+                alt="Full preview" 
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
+              />
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

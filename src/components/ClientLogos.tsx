@@ -1,5 +1,3 @@
-import { ThemeToggle } from "./ThemeToggle";
-
 const clients = [
   { name: "Student Council", logo: "/images/clients/student-council.png" },
   { name: "Tumbledry", logo: "/images/clients/tumbledry-new.png" },
@@ -13,24 +11,23 @@ const clients = [
 
 const ClientLogos = () => {
   return (
-    <section id="about" className="py-16 border-y border-border bg-card/30 relative group">
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-        <ThemeToggle />
+    <section id="about" className="py-16 md:py-48 relative bg-transparent overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 mb-8 md:mb-20 text-center">
+        <h2 className="font-display text-[24px] md:text-display-sm text-ebon-depth font-semibold tracking-tight">
+          The Brands We've Transformed
+        </h2>
       </div>
-      <div className="container mx-auto px-4 mb-10 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Our Clients</h2>
-      </div>
-      <div className="overflow-hidden">
-        <div className="flex animate-marquee">
-          {[...clients, ...clients, ...clients, ...clients].map((client, index) => (
+      <div className="w-full">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...clients, ...clients].map((client, index) => (
             <div
               key={index}
-              className="flex items-center gap-3 mx-8 md:mx-12 shrink-0"
+              className="flex items-center justify-center gap-4 mx-8 md:mx-48 shrink-0"
             >
               <img
                 src={client.logo}
                 alt={`${client.name} logo`}
-                className="h-16 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="h-16 md:h-28 w-auto object-contain opacity-60 hover:opacity-100 transition-all duration-500 hover:scale-110 mix-blend-multiply"
               />
             </div>
           ))}

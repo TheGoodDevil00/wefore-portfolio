@@ -111,13 +111,25 @@ const Button3D = ({ text = "WeFore", onClick }: Button3DProps) => {
                 onClick={handleClick}
             >
                 <span className="button3d_glow" ref={glowRef}></span>
-                <span className="button3d_side button3d_front">
-                    <img
-                        src={isDark ? "/images/logo.png" : "/images/logo-light.png"}
-                        alt="WeFore Logo"
-                        className="button3d_logo"
-                    />
-                </span>
+                <span className="button3d_side button3d_front"></span>
+                {/* 3D Volume Layers for Solid Extruded Logo Effect */}
+                {[...Array(60)].map((_, i) => (
+                    <span
+                        key={`layer-${i}`}
+                        className="button3d_volume"
+                        style={{
+                            transform: `translateZ(calc(var(--box-depth, 75px) * ${(59 - i * 2) / 59}))`,
+                            filter: i > 0 ? (isDark ? 'brightness(0.35)' : 'brightness(0.8)') : 'none',
+                            opacity: i > 0 ? 0.98 : 1
+                        }}
+                    >
+                        <img
+                            src={isDark ? "/images/logo.png" : "/images/logo-light.png"}
+                            alt={i === 0 ? "WeFore Logo" : ""}
+                            className="button3d_logo"
+                        />
+                    </span>
+                ))}
                 <span className="button3d_side button3d_bottom"></span>
                 <span className="button3d_side button3d_back"></span>
                 <span className="button3d_side button3d_top"></span>
